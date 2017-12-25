@@ -1,11 +1,16 @@
 function markDayStartTime(time) {
-	// will be replaced with storage 
-	console.log("Start Time : " + time);
+	var today = new Date();
+	var date = today.getDay() + "/" + today.getMonth() + "/" + today.getFullYear();
+
+	chrome.storage.sync.set({'day':date,'start':time},function(){
+		console.log("Date: " + date + " Start Time: " + time + " Saved!");
+	});
 }
 
-function saveEntry(time){
-	// will be replaced with storage
-	console.log("End Time : " + time);
+function saveEntry(endOfWorkTime){
+	chrome.storage.sync.set({'end':endOfWorkTime}, function(){
+		console.log("End Time " + endOfWorkTime);
+	});
 }
 
 function setAlarm(time){
@@ -25,6 +30,7 @@ function onClickMarkStartButton(){
 
 function onClickMarkEndButton(){
 	var end = Date.now();
+	saveEntry(end);
 }
 
 chrome.alarms.onAlarm.addListener(function(alarm){
