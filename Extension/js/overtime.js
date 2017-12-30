@@ -1,57 +1,40 @@
-var markStartBtn = document.getElementById("btnMarkStart");
-var markEndBtn = document.getElementById("btnMarkEnd");
+var btnMarkStart = document.getElementById("btnMarkStart");
+var btnMarkEnd = document.getElementById("btnMarkEnd");
+var now = new Date();
 
-function onLoad() {
-	chrome.storage.sync.get("allowStartTimeBtn", function (obj) {
-		if (markStartBtn) {
-			if (obj.allowStartTimeBtn) {
-				markStartBtn.disabled = false;
-			} else {
-				markStartBtn.disabled = true;
-			}
-		}
-	});
+function getCurrentDate() {
+	var currentDate = (now.getDate()) + "/" + (now.getMonth() + 1) + "/" + (now.getFullYear());
+	return currentDate;
 }
 
-function markDayStartTime(time) {
-	var today = new Date();
-	var date = today.getDay() + "/" + today.getMonth() + "/" + today.getFullYear();
-
-	chrome.storage.sync.set({ 'day': date, 'start': time }, function () {
-		console.log("Date: " + date + " Start Time: " + time + " Saved!");
-	});
-}
-
-function saveEntry(endOfWorkTime) {
-	chrome.storage.sync.set({ 'end': endOfWorkTime }, function () {
-		console.log("End Time " + endOfWorkTime);
-	});
+function getCurrentTime() {
+	var currentTime = (now.getHours()) + ":" + (now.getMinutes());
+	return currentTime;
 }
 
 // Event Listeners
 function onClickMarkStartButton() {
-	var start = Date.now();
-	markDayStartTime(start);
+	var date = getCurrentDate();
+	var start = getCurrentTime();
+	chrome.storage.sync.set({},function(){
 
-	var end = start + (9 * 60 * 60 * 1000);
-	setAlarm(end);
-
-	chrome.storage.sync.set({ 'allowStartTimeBtn': false }, function () {
-		console.log("button value saved");
 	});
 }
 
 function onClickMarkEndButton() {
-	var end = Date.now();
-	saveEntry(end);
+	
 }
 
-if (markStartBtn) {
-	addEventListener("click", onClickMarkStartButton);
-}
+function onLoad() {
+	console.log("onLoad() executed");
 
-if (markEndBtn) {
-	addEventListener("click", onClickMarkEndButton);
+	if (btnMarkStart) {
+		btnMarkStart.addEventListener("click", onClickMarkStartButton);
+	}
+
+	if (btnMarkEnd) {
+		btnMarkEnd.addEventListener("click", onClickMarkEndButton);
+	}
 }
 
 document.addEventListener('DOMContentLoaded', onLoad, false);
@@ -59,3 +42,10 @@ document.addEventListener('DOMContentLoaded', onLoad, false);
 chrome.browserAction.onClicked.addListener(function () {
 	chrome.tabs.create({ url: chrome.runtime.getURL("overtime.html") });
 });
+
+/////////////////////////////////////////////////////////////////////////
+// Create a table with date as key
+// Fetch for it
+// If Exists, then push value. Else create the date
+// onLoad check if date exists
+// 

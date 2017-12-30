@@ -1,24 +1,77 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Overtime Manager</title>
-    <link rel="stylesheet" href="css/materialize.min.css">
-  </head>
 
-  <body>
-    <nav>
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo center">Overtime Assistant</a>
+<head>
+  <title>Overtime Manager</title>
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo center">Overtime Assistant</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="section">
+      <h5>Control Panel</h5>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+      <div class="col s6 center">
+        <div class="card hoverable teal lighten-3">
+          <div class="card-image">
+            <i class="large material-icons">event</i>
+          </div>
+          <div class="card-content teal lighten-2 white-text">
+            Mark Attendance
+          </div>
+        </div>
       </div>
-    </nav>
-    <div id="container">
-      <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
-      <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
-      <input id="isOvertime" value="Overtime?" type="checkbox" name="CheckboxOvertime">
+
+      <div class="col s6 center">
+        <div class="card hoverable green lighten-3">
+          <div class="card-image">
+            <i class="large material-icons">check</i>
+          </div>
+          <div class="card-content green lighten-2 white-text">
+            Check Attendance
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script src="/js/materialize.min.js"></script>
+    <div class="row">
+      <div class="col s6 center">
+        <div class="card hoverable red lighten-3">
+          <div class="card-image">
+            <i class="large material-icons">picture_as_pdf</i>
+          </div>
+          <div class="card-content red lighten-2 white-text">
+            Convert to Table
+          </div>
+        </div>
+      </div>
+
+      <div class="col s6 center">
+        <div class="card hoverable blue lighten-3">
+          <div class="card-image">
+            <i class="large material-icons">info_outline</i>
+          </div>
+          <div class="card-content blue lighten-2 white-text">
+            About
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
+    <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
+
     <script src="/js/overtime.js"></script>
-  </body>
+    <script src="/js/materialize.min.js"></script>
+</body>
+
 </html>
-        
