@@ -4,7 +4,7 @@
 <head>
   <title>Overtime Manager</title>
   <link rel="stylesheet" href="css/materialize.min.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
     </div>
     <div class="divider"></div>
     <div class="row">
-      <div class="col s6 center">
+      <div id="mark" class="col s6 center">
         <div class="card hoverable teal lighten-3">
           <div class="card-image">
             <i class="large material-icons">event</i>
@@ -31,7 +31,7 @@
         </div>
       </div>
 
-      <div class="col s6 center">
+      <div id="check" class="col s6 center">
         <div class="card hoverable green lighten-3">
           <div class="card-image">
             <i class="large material-icons">check</i>
@@ -44,7 +44,7 @@
     </div>
 
     <div class="row">
-      <div class="col s6 center">
+      <div id="pdf" class="col s6 center">
         <div class="card hoverable red lighten-3">
           <div class="card-image">
             <i class="large material-icons">picture_as_pdf</i>
@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div class="col s6 center">
+      <div id="about" class="col s6 center">
         <div class="card hoverable blue lighten-3">
           <div class="card-image">
             <i class="large material-icons">info_outline</i>
@@ -67,11 +67,61 @@
       </div>
     </div>
 
-    <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
-    <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
+    <div id="divMark" class="row">
+      <div class="section">
+        <h5>Mark Attendance</h5>
+      </div>
 
-    <script src="/js/overtime.js"></script>
-    <script src="/js/materialize.min.js"></script>
+      <div class="divider"></div>
+      <blockquote>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque velit dolores inventore molestias! Facere ipsam modi est distinctio
+        suscipit sequi vel, laudantium, quibusdam optio id alias explicabo tempore aut nesciunt!
+      </blockquote>
+    </div>
+
+    <div id="divCheck" class="row">
+      <div class="section">
+        <h5>Check Attendance</h5>
+      </div>
+
+      <div class="divider"></div>
+      <blockquote>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque velit dolores inventore molestias! Facere ipsam modi est distinctio
+        suscipit sequi vel, laudantium, quibusdam optio id alias explicabo tempore aut nesciunt!
+      </blockquote>
+    </div>
+
+    <div id="divConvert" class="row">
+      <div class="section">
+        <h5>Convert to Table</h5>
+      </div>
+
+      <div class="divider"></div>
+      <blockquote>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque velit dolores inventore molestias! Facere ipsam modi est distinctio
+        suscipit sequi vel, laudantium, quibusdam optio id alias explicabo tempore aut nesciunt!
+      </blockquote>
+    </div>
+
+    <div id="divAbout" class="row">
+      <div class="section">
+        <h5>About</h5>
+      </div>
+
+      <div class="divider"></div>
+      <blockquote>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque velit dolores inventore molestias! Facere ipsam modi est distinctio
+        suscipit sequi vel, laudantium, quibusdam optio id alias explicabo tempore aut nesciunt!
+      </blockquote>
+    </div>
+
+  </div>
+  <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
+  <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
+
+  <script src="/js/materialize.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/overtime.js"></script>
 </body>
 
 </html>

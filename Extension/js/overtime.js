@@ -43,6 +43,26 @@ chrome.browserAction.onClicked.addListener(function () {
 	chrome.tabs.create({ url: chrome.runtime.getURL("overtime.html") });
 });
 
+$("#mark").click(function() {
+	$('html,body').animate({scrollTop: $("#divMark").offset().top},
+	  'slow');
+});
+
+$("#check").click(function() {
+	$('html,body').animate({scrollTop: $("#divCheck").offset().top},
+	  'slow');
+});
+
+$("#pdf").click(function() {
+	$('html,body').animate({scrollTop: $("#divConvert").offset().top},
+	  'slow');
+});
+
+$("#about").click(function() {
+	$('html,body').animate({scrollTop: $("#divAbout").offset().top},
+	  'slow');
+});
+
 /////////////////////////////////////////////////////////////////////////
 // Create a table with date as key
 // Fetch for it
