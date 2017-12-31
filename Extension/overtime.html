@@ -3,8 +3,10 @@
 
 <head>
   <title>Overtime Manager</title>
-  <link rel="stylesheet" href="css/materialize.min.css">
+  <link rel="stylesheet" href="/css/materialize.min.css">
+  <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -14,8 +16,8 @@
     </div>
   </nav>
 
-  <div class="container">
-    <div class="section">
+  <div class="container flow-text">
+    <div class="section center">
       <h5>Control Panel</h5>
     </div>
     <div class="divider"></div>
@@ -74,8 +76,8 @@
 
       <div class="divider"></div>
       <blockquote>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque velit dolores inventore molestias! Facere ipsam modi est distinctio
-        suscipit sequi vel, laudantium, quibusdam optio id alias explicabo tempore aut nesciunt!
+          <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
+          <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
       </blockquote>
     </div>
 
@@ -109,15 +111,19 @@
       </div>
 
       <div class="divider"></div>
-      <blockquote>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque velit dolores inventore molestias! Facere ipsam modi est distinctio
-        suscipit sequi vel, laudantium, quibusdam optio id alias explicabo tempore aut nesciunt!
-      </blockquote>
+      <p class="">
+        <div>Developed by: Abhishek L. Deore</div> 
+        The extension is free for use, any suggestions are welcome!
+        <div id="social" class="col s12">
+          <div>My social links</div>
+          <span><a href="https://www.facebook.com/abdr1337" class="fa fa-facebook"></a></span>
+          <span><a href="#" class="fa fa-google"></a></span>
+          <span><a href="https://www.linkedin.com/in/abhishekdeore" class="fa fa-linkedin"></a></span>
+          <span><a href="https://www.github.com/L1nu5" class="fa fa-github"></a></span>
+        </div>
+      </p>
     </div>
-
   </div>
-  <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
-  <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
 
   <script src="/js/materialize.min.js"></script>
   <script src="/js/jquery.min.js"></script>
