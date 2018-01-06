@@ -1,6 +1,10 @@
+// Cannot write wrapper around chrome.storage.sync.get()
+// because of its Asynchronous behaviour
+
 var storage = chrome.storage.sync;
 var btnMarkStart = document.getElementById("btnMarkStart");
 var btnMarkEnd = document.getElementById("btnMarkEnd");
+var storeKeys = ["start", "end"];
 var now = new Date();
 
 function getCurrentDate() {
@@ -17,6 +21,37 @@ function setData(key, value) {
 	storage.set({ [key]: value });
 }
 
+function generateTable() {
+	storage.get(null, function (items) {
+		var allKeys = Object.keys(items);
+
+		var table = document.createElement('table');
+		var tableBody = document.createElement('tbody');
+		table.style.width = '100%';
+		table.setAttribute('border', '1');
+
+		for (var i = 0; i < allKeys.length; ++i) {
+			var row = document.createElement('tr');
+			var currentKey = allKeys[i];
+			
+			storage.get([currentKey], function (result) {
+
+				var value = result[currentKey];
+				row.appendChild(document.createTextNode(currentKey));
+				for (var j = 0; j < 2; ++j){
+					var td = document.createElement('td');
+					td.appendChild(document.createTextNode(value[storeKeys[j]]));
+					row.appendChild(td);
+				}
+			});
+
+			tableBody.appendChild(row);
+		}
+		table.appendChild(tableBody);
+		document.getElementById('tableContent').appendChild(table);
+	});
+}
+
 // Event Listeners
 function onClickMarkStartButton() {
 	var date = getCurrentDate();
@@ -26,16 +61,16 @@ function onClickMarkStartButton() {
 }
 
 function onClickMarkEndButton() {
-    var date = getCurrentDate();
-    chrome.storage.sync.get(date, function (obj) {
+	var date = getCurrentDate();
+	chrome.storage.sync.get(date, function (obj) {
 		var value = obj[date];
 		var startTime = value["start"];
-		
-        setData(date, {
-            start: startTime,
-            end: getCurrentTime()
-        });
-    });
+
+		setData(date, {
+			start: startTime,
+			end: getCurrentTime()
+		});
+	});
 }
 
 function onLoad() {
@@ -48,6 +83,8 @@ function onLoad() {
 	if (btnMarkEnd) {
 		btnMarkEnd.addEventListener("click", onClickMarkEndButton);
 	}
+
+	generateTable();
 }
 
 document.addEventListener('DOMContentLoaded', onLoad, false);
@@ -75,10 +112,3 @@ $("#about").click(function () {
 	$('html,body').animate({ scrollTop: $("#divAbout").offset().top },
 		'slow');
 });
-
-/////////////////////////////////////////////////////////////////////////
-// Create a table with date as key
-// Fetch for it
-// If Exists, then push value. Else create the date
-// onLoad check if date exists
-// 
