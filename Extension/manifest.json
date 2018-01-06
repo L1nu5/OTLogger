@@ -12,8 +12,9 @@
 
   "background": {
     "scripts": [
-      "/js/overtime.js",
-      "/js/materialize.min.js"
+      "/js/jquery.min.js",
+      "/js/materialize.min.js",
+      "/js/overtime.js"
     ],
     "persistent": false
   },

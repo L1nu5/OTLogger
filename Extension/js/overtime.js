@@ -1,3 +1,4 @@
+var storage = chrome.storage.sync;
 var btnMarkStart = document.getElementById("btnMarkStart");
 var btnMarkEnd = document.getElementById("btnMarkEnd");
 var now = new Date();
@@ -12,17 +13,29 @@ function getCurrentTime() {
 	return currentTime;
 }
 
+function setData(key, value) {
+	storage.set({ [key]: value });
+}
+
 // Event Listeners
 function onClickMarkStartButton() {
 	var date = getCurrentDate();
-	var start = getCurrentTime();
-	chrome.storage.sync.set({},function(){
+	var start = { 'start': getCurrentTime() };
 
-	});
+	setData(date, start);
 }
 
 function onClickMarkEndButton() {
-	
+    var date = getCurrentDate();
+    chrome.storage.sync.get(date, function (obj) {
+		var value = obj[date];
+		var startTime = value["start"];
+		
+        setData(date, {
+            start: startTime,
+            end: getCurrentTime()
+        });
+    });
 }
 
 function onLoad() {
@@ -43,24 +56,24 @@ chrome.browserAction.onClicked.addListener(function () {
 	chrome.tabs.create({ url: chrome.runtime.getURL("overtime.html") });
 });
 
-$("#mark").click(function() {
-	$('html,body').animate({scrollTop: $("#divMark").offset().top},
-	  'slow');
+$("#mark").click(function () {
+	$('html,body').animate({ scrollTop: $("#divMark").offset().top },
+		'slow');
 });
 
-$("#check").click(function() {
-	$('html,body').animate({scrollTop: $("#divCheck").offset().top},
-	  'slow');
+$("#check").click(function () {
+	$('html,body').animate({ scrollTop: $("#divCheck").offset().top },
+		'slow');
 });
 
-$("#pdf").click(function() {
-	$('html,body').animate({scrollTop: $("#divConvert").offset().top},
-	  'slow');
+$("#pdf").click(function () {
+	$('html,body').animate({ scrollTop: $("#divConvert").offset().top },
+		'slow');
 });
 
-$("#about").click(function() {
-	$('html,body').animate({scrollTop: $("#divAbout").offset().top},
-	  'slow');
+$("#about").click(function () {
+	$('html,body').animate({ scrollTop: $("#divAbout").offset().top },
+		'slow');
 });
 
 /////////////////////////////////////////////////////////////////////////
