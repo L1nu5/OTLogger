@@ -75,10 +75,26 @@
       </div>
 
       <div class="divider"></div>
-      <blockquote>
-          <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
-          <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
-      </blockquote>
+      <div class="input-field">
+        <div class="col s2">
+          <i class="material-icons prefix">date_range</i>
+          <input type="text" class="datepicker" placeholder="Pick Date">
+        </div>
+        <div class="col s2">
+          <i class="material-icons prefix">access_time</i>
+          <input type="text" class="timepicker" placeholder="Pick Time">
+        </div>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea id="textarea1" class="materialize-textarea"></textarea>
+          <label for="textarea1">Tasks done in Overtime</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
+      <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
     </div>
 
     <div id="divCheck" class="row">
@@ -88,7 +104,7 @@
 
       <div class="divider"></div>
       <div id="tableContent">
-        
+
       </div>
     </div>
 
@@ -111,14 +127,22 @@
 
       <div class="divider"></div>
       <p class="">
-        <div>Developed by: Abhishek L. Deore</div> 
+        <div>Developed by: Abhishek L. Deore</div>
         The extension is free for use, any suggestions are welcome!
         <div id="social" class="col s12">
           <div>My social links</div>
-          <span><a href="https://www.facebook.com/abdr1337" class="fa fa-facebook"></a></span>
-          <span><a href="#" class="fa fa-google"></a></span>
-          <span><a href="https://www.linkedin.com/in/abhishekdeore" class="fa fa-linkedin"></a></span>
-          <span><a href="https://www.github.com/L1nu5" class="fa fa-github"></a></span>
+          <span>
+            <a href="https://www.facebook.com/abdr1337" class="fa fa-facebook"></a>
+          </span>
+          <span>
+            <a href="#" class="fa fa-google"></a>
+          </span>
+          <span>
+            <a href="https://www.linkedin.com/in/abhishekdeore" class="fa fa-linkedin"></a>
+          </span>
+          <span>
+            <a href="https://www.github.com/L1nu5" class="fa fa-github"></a>
+          </span>
         </div>
       </p>
     </div>
