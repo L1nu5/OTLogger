@@ -75,26 +75,78 @@
       </div>
 
       <div class="divider"></div>
-      <div class="input-field">
-        <div class="col s2">
-          <i class="material-icons prefix">date_range</i>
-          <input type="text" class="datepicker" placeholder="Pick Date">
+      <div class="today">
+        <div class="section">
+          <h5>Today</h5>
         </div>
-        <div class="col s2">
-          <i class="material-icons prefix">access_time</i>
-          <input type="text" class="timepicker" placeholder="Pick Time">
-        </div>
-        <div class="input-field col s12">
-          <i class="material-icons prefix">mode_edit</i>
-          <textarea id="textarea1" class="materialize-textarea"></textarea>
-          <label for="textarea1">Tasks done in Overtime</label>
+
+        <div class="create-form">
+          <div class="row">
+            <div class="col s2 input-field">
+              <i class="material-icons prefix">access_time</i>
+              <input type="text" class="timepicker" placeholder="Pick Start Time">
+            </div>
+
+            <div class="col s2 input-field">
+              <i class="material-icons prefix">timelapse</i>
+              <input type="text" class="timepicker" placeholder="Pick End Time">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 input-field ">
+              <i class="material-icons prefix">mode_edit</i>
+              <textarea id="textarea1" class="materialize-textarea"></textarea>
+              <label for="textarea1">Tasks done in Overtime</label>
+            </div>
+          </div>
+
+          <div class="row center">
+            <input class="waves-effect waves-light btn" id="btnMarkStart" value="Save" type="button" name="MarkStartButton">
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <input class="waves-effect waves-light btn" id="btnMarkStart" value="Start!" type="button" name="MarkStartButton">
-      <input class="waves-effect waves-light btn" id="btnMarkEnd" value="Stop" type="button" name="MarkEndButton">
+      <div class="update">
+        <div class="section">
+          <h5>Update</h5>
+        </div>
+
+        <div class="update-form">
+          <div class="input-field">
+            <div class="row">
+              <div class="col s2">
+                <i class="material-icons prefix">date_range</i>
+                <input type="text" class="datepicker" placeholder="Pick Date">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s2">
+                <i class="material-icons prefix">access_time</i>
+                <input type="text" class="timepicker" placeholder="Pick Start Time">
+              </div>
+
+              <div class="input-field col s2">
+                <i class="material-icons prefix">timelapse</i>
+                <input type="text" class="timepicker" placeholder="Pick End Time">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">mode_edit</i>
+                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                <label for="textarea1">Tasks done in Overtime</label>
+              </div>
+            </div>
+
+            <div class="row center">
+              <input class="waves-effect waves-light btn" id="btnMarkStart" value="Update" type="button" name="MarkStartButton">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="divCheck" class="row">
