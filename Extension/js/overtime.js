@@ -6,7 +6,7 @@
 var storage = chrome.storage.sync;
 var btnMarkAdd = document.getElementById("btnMarkAdd");
 var btnMarkUpdate = document.getElementById("btnMarkUpdate");
-var storeKeys = ["start", "end"];
+var storeKeys = ["start", "end", "tasks"];
 var now = new Date();
 
 function getCurrentDate() {
@@ -19,6 +19,10 @@ function getCurrentTime() {
 	return currentTime;
 }
 
+function getValueForHTMLId(htmlId){
+	return document.getElementById(htmlId).value;
+}
+
 function setData(key, value) {
 	storage.set({ [key]: value });
 }
@@ -26,27 +30,27 @@ function setData(key, value) {
 function generateTable() {
 	storage.get(null, function (items) {
 		var allKeys = Object.keys(items);
-
+		
 		var table = document.createElement('table');
 		var tableBody = document.createElement('tbody');
 		table.style.width = '100%';
 		table.setAttribute('border', '1');
-
+		
 		for (var i = 0; i < allKeys.length; ++i) {
 			var row = document.createElement('tr');
 			var currentKey = allKeys[i];
-
+			
 			storage.get([currentKey], function (result) {
-
+				
 				var value = result[currentKey];
 				row.appendChild(document.createTextNode(currentKey));
-				for (var j = 0; j < 2; ++j) {
+				for (var j = 0; j < storeKeys.length; ++j) {
 					var td = document.createElement('td');
 					td.appendChild(document.createTextNode(value[storeKeys[j]]));
 					row.appendChild(td);
 				}
 			});
-
+			
 			tableBody.appendChild(row);
 		}
 		table.appendChild(tableBody);
@@ -56,12 +60,14 @@ function generateTable() {
 
 // Event Listeners
 function onClickMarkAddButton() {
-	var date = getCurrentDate();
-	var start = { 'start': document.getElementById('timeAdd-start').value };
-	var end = { 'end':document.getElementById('timeAdd-end').value };
-	console.log(start.start +"," + end.end);
-	var timeStamps = start.start + "," + end.end;
-	setData(date, [start,end]);
+	var date = getValueForHTMLId('timeAdd-date');
+	var timeStamp = {
+						 "start" : getValueForHTMLId('timeAdd-start'),
+						 "end"   : getValueForHTMLId('timeAdd-end'),
+						 "tasks" : getValueForHTMLId('timeAdd-tasks')
+					};
+	console.log(timeStamp);
+	setData(date,timeStamp);
 }
 
 function onClickMarkUpdateButton() {
@@ -69,7 +75,7 @@ function onClickMarkUpdateButton() {
 	storage.get(date, function (obj) {
 		var value = obj[date];
 		var startTime = value["start"];
-
+		
 		setData(date, {
 			start: startTime,
 			end: getCurrentTime()
@@ -79,15 +85,15 @@ function onClickMarkUpdateButton() {
 
 function onLoad() {
 	console.log("onLoad() executed");
-
+	
 	if (btnMarkAdd) {
 		btnMarkAdd.addEventListener("click", onClickMarkAddButton);
 	}
-
+	
 	if (btnMarkUpdate) {
 		btnMarkUpdate.addEventListener("click", onClickMarkUpdateButton);
 	}
-
+	
 	generateTable();
 }
 
@@ -99,22 +105,22 @@ chrome.browserAction.onClicked.addListener(function () {
 
 $("#mark").click(function () {
 	$('html,body').animate({ scrollTop: $("#divMark").offset().top },
-		'slow');
+	'slow');
 });
 
 $("#check").click(function () {
 	$('html,body').animate({ scrollTop: $("#divCheck").offset().top },
-		'slow');
+	'slow');
 });
 
 $("#pdf").click(function () {
 	$('html,body').animate({ scrollTop: $("#divConvert").offset().top },
-		'slow');
+	'slow');
 });
 
 $("#about").click(function () {
 	$('html,body').animate({ scrollTop: $("#divAbout").offset().top },
-		'slow');
+	'slow');
 });
 
 $('.datepicker').pickadate({
@@ -123,7 +129,8 @@ $('.datepicker').pickadate({
 	today: 'Today',
 	clear: 'Clear',
 	close: 'Ok',
-	closeOnSelect: false // Close upon selecting a date,
+	closeOnSelect: false, // Close upon selecting a date,
+	format:'dd-mm-yyyy'
 });
 
 $('.timepicker').pickatime({
