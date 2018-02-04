@@ -84,12 +84,12 @@
           <div class="row">
             <div class="col s2 input-field">
               <i class="material-icons prefix">access_time</i>
-              <input type="text" class="timepicker" placeholder="Pick Start Time">
+              <input type="text" id="timeAdd-start" class="timepicker" placeholder="Pick Start Time" required>
             </div>
 
             <div class="col s2 input-field">
               <i class="material-icons prefix">timelapse</i>
-              <input type="text" class="timepicker" placeholder="Pick End Time">
+              <input type="text" id="timeAdd-end" class="timepicker" placeholder="Pick End Time" required>
             </div>
           </div>
 
@@ -102,7 +102,7 @@
           </div>
 
           <div class="row center">
-            <input class="waves-effect waves-light btn" id="btnMarkStart" value="Save" type="button" name="MarkStartButton">
+            <input class="waves-effect waves-light btn" id="btnMarkAdd" value="Save" type="button" name="MarkAddButton">
           </div>
         </div>
       </div>
@@ -117,19 +117,19 @@
             <div class="row">
               <div class="col s2">
                 <i class="material-icons prefix">date_range</i>
-                <input type="text" class="datepicker" placeholder="Pick Date">
+                <input type="text" class="datepicker" placeholder="Pick Date" required>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col s2">
                 <i class="material-icons prefix">access_time</i>
-                <input type="text" class="timepicker" placeholder="Pick Start Time">
+                <input type="text" class="timepicker" placeholder="Pick Start Time" required>
               </div>
 
               <div class="input-field col s2">
                 <i class="material-icons prefix">timelapse</i>
-                <input type="text" class="timepicker" placeholder="Pick End Time">
+                <input type="text" class="timepicker" placeholder="Pick End Time" required>
               </div>
             </div>
 
@@ -142,7 +142,7 @@
             </div>
 
             <div class="row center">
-              <input class="waves-effect waves-light btn" id="btnMarkStart" value="Update" type="button" name="MarkStartButton">
+              <input class="waves-effect waves-light btn" id="btnMarkUpdate" value="Update" type="button" name="MarkUpdateButton">
             </div>
           </div>
         </div>

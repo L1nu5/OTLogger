@@ -1,9 +1,11 @@
 // Cannot write wrapper around chrome.storage.sync.get()
 // because of its Asynchronous behaviour
 
+// Minor refactorings, modified storage calls to save time picker values
+
 var storage = chrome.storage.sync;
-var btnMarkStart = document.getElementById("btnMarkStart");
-var btnMarkEnd = document.getElementById("btnMarkEnd");
+var btnMarkAdd = document.getElementById("btnMarkAdd");
+var btnMarkUpdate = document.getElementById("btnMarkUpdate");
 var storeKeys = ["start", "end"];
 var now = new Date();
 
@@ -53,16 +55,18 @@ function generateTable() {
 }
 
 // Event Listeners
-function onClickMarkStartButton() {
+function onClickMarkAddButton() {
 	var date = getCurrentDate();
-	var start = { 'start': getCurrentTime() };
-
-	setData(date, start);
+	var start = { 'start': document.getElementById('timeAdd-start').value };
+	var end = { 'end':document.getElementById('timeAdd-end').value };
+	console.log(start.start +"," + end.end);
+	var timeStamps = start.start + "," + end.end;
+	setData(date, [start,end]);
 }
 
-function onClickMarkEndButton() {
+function onClickMarkUpdateButton() {
 	var date = getCurrentDate();
-	chrome.storage.sync.get(date, function (obj) {
+	storage.get(date, function (obj) {
 		var value = obj[date];
 		var startTime = value["start"];
 
@@ -76,12 +80,12 @@ function onClickMarkEndButton() {
 function onLoad() {
 	console.log("onLoad() executed");
 
-	if (btnMarkStart) {
-		btnMarkStart.addEventListener("click", onClickMarkStartButton);
+	if (btnMarkAdd) {
+		btnMarkAdd.addEventListener("click", onClickMarkAddButton);
 	}
 
-	if (btnMarkEnd) {
-		btnMarkEnd.addEventListener("click", onClickMarkEndButton);
+	if (btnMarkUpdate) {
+		btnMarkUpdate.addEventListener("click", onClickMarkUpdateButton);
 	}
 
 	generateTable();
