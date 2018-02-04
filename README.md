@@ -1,5 +1,8 @@
 # OTLogger
 A chrome extension to keep track of Overtime at work
 
-Quick Update!
-I'll be adding Python script which would save the overtime details. Those details would be accessible to Chrome extension. This helps removing chrome storage use completely. Thus, the chrome extension will solely act as a terminal to view details.
+Progress: Near completion, Update Attendance section needs modifications.
+
+# Upcoming changes-
+- A fully functional 'Mark Attendance' section
+- Allow users to download Overtime table to send it over email. 
