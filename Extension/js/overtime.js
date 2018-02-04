@@ -27,6 +27,22 @@ function setData(key, value) {
 	storage.set({ [key]: value });
 }
 
+function generateList() {
+	storage.get(null, function (items){
+		var allKeys = Object.keys(items);
+		
+		var items = '<ul id="dropdown1" class="drowdown-content">';
+		for(var i=0;i<allKeys.length;++i){
+			var currentKey = allKeys[i];
+			
+			items += ('<li><a href="#!">'+ currentKey +'</a></li>');
+		}
+		items += '</ul>';
+
+		$("#dropDownDates").append(items);
+	});
+}
+
 function generateTable() {
 	storage.get(null, function (items) {
 		var allKeys = Object.keys(items);
@@ -62,10 +78,10 @@ function generateTable() {
 function onClickMarkAddButton() {
 	var date = getValueForHTMLId('timeAdd-date');
 	var timeStamp = {
-						 "start" : getValueForHTMLId('timeAdd-start'),
-						 "end"   : getValueForHTMLId('timeAdd-end'),
-						 "tasks" : getValueForHTMLId('timeAdd-tasks')
-					};
+		"start" : getValueForHTMLId('timeAdd-start'),
+		"end"   : getValueForHTMLId('timeAdd-end'),
+		"tasks" : getValueForHTMLId('timeAdd-tasks')
+	};
 	console.log(timeStamp);
 	setData(date,timeStamp);
 }
@@ -95,6 +111,7 @@ function onLoad() {
 	}
 	
 	generateTable();
+	generateList();
 }
 
 document.addEventListener('DOMContentLoaded', onLoad, false);
@@ -144,3 +161,16 @@ $('.timepicker').pickatime({
 	ampmclickable: true, // make AM PM clickable
 	aftershow: function () { } //Function for after opening timepicker
 });
+
+$('.dropdown-button').dropdown({
+	inDuration: 300,
+	outDuration: 225,
+	constrainWidth: false, // Does not change width of dropdown to that of the activator
+	hover: true, // Activate on hover
+	gutter: 0, // Spacing from edge
+	belowOrigin: false, // Displays dropdown below the button
+	alignment: 'left', // Displays dropdown with edge aligned to the left of button
+	stopPropagation: false // Stops event propagation
+  }
+);
+   
