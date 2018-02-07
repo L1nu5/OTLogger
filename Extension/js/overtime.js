@@ -43,18 +43,6 @@ function generateList() {
 	});
 }
 
-function traverse(jsonObj) {
-	if( typeof jsonObj == "object" ) {
-		$.each(jsonObj, function(k,v) {
-			// k is either an array index or object key
-			traverse(v);
-		});
-	}
-	else {
-		console.log(jsonObj);
-	}
-}
-
 function generateTable() {
     var table = document.createElement('table');
 
@@ -170,3 +158,7 @@ $('.dropdown-button').dropdown({
 	stopPropagation: false // Stops event propagation
 }
 );
+
+$('#btnScrollTop').click(function(){
+	$("html, body").animate({scrollTop: 0}, 1000);
+});
