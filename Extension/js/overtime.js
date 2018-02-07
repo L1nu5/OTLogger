@@ -31,47 +31,53 @@ function generateList() {
 	storage.get(null, function (items){
 		var allKeys = Object.keys(items);
 		
-		var items = '<ul id="dropdown1" class="drowdown-content">';
+		var items = '<ul id="dropdown1" class="dropdown-content">';
 		for(var i=0;i<allKeys.length;++i){
 			var currentKey = allKeys[i];
 			
 			items += ('<li><a href="#!">'+ currentKey +'</a></li>');
 		}
 		items += '</ul>';
-
+		
 		$("#dropDownDates").append(items);
 	});
 }
 
+function traverse(jsonObj) {
+	if( typeof jsonObj == "object" ) {
+		$.each(jsonObj, function(k,v) {
+			// k is either an array index or object key
+			traverse(v);
+		});
+	}
+	else {
+		console.log(jsonObj);
+	}
+}
+
 function generateTable() {
-	storage.get(null, function (items) {
-		var allKeys = Object.keys(items);
-		
-		var table = document.createElement('table');
-		var tableBody = document.createElement('tbody');
-		table.style.width = '100%';
-		table.setAttribute('border', '1');
-		
-		for (var i = 0; i < allKeys.length; ++i) {
-			var row = document.createElement('tr');
-			var currentKey = allKeys[i];
-			
-			storage.get([currentKey], function (result) {
-				
-				var value = result[currentKey];
-				row.appendChild(document.createTextNode(currentKey));
-				for (var j = 0; j < storeKeys.length; ++j) {
-					var td = document.createElement('td');
-					td.appendChild(document.createTextNode(value[storeKeys[j]]));
-					row.appendChild(td);
-				}
-			});
-			
-			tableBody.appendChild(row);
-		}
-		table.appendChild(tableBody);
-		document.getElementById('tableContent').appendChild(table);
-	});
+    var table = document.createElement('table');
+
+    storage.get(null, function (items) {
+        for (currentKey of Object.keys(items)) {
+            var dateElement = items[currentKey];
+
+            var tableRow = document.createElement('tr');
+            tableRow.appendChild(createTableData(currentKey));
+
+            for(elementValue of Object.values(dateElement)){
+               tableRow.appendChild(createTableData(elementValue));
+            }
+            table.appendChild(tableRow); 
+        }
+        document.getElementById("tableContent").appendChild(table);
+    });
+}
+
+function createTableData(value){
+    var tableData = document.createElement('td');
+    tableData.appendChild(document.createTextNode(value));
+    return tableData;
 }
 
 // Event Listeners
@@ -87,16 +93,7 @@ function onClickMarkAddButton() {
 }
 
 function onClickMarkUpdateButton() {
-	var date = getCurrentDate();
-	storage.get(date, function (obj) {
-		var value = obj[date];
-		var startTime = value["start"];
-		
-		setData(date, {
-			start: startTime,
-			end: getCurrentTime()
-		});
-	});
+	
 }
 
 function onLoad() {
@@ -107,7 +104,7 @@ function onLoad() {
 	}
 	
 	if (btnMarkUpdate) {
-		btnMarkUpdate.addEventListener("click", onClickMarkUpdateButton);
+		//btnMarkUpdate.addEventListener("click", onClickMarkUpdateButton);
 	}
 	
 	generateTable();
@@ -171,6 +168,5 @@ $('.dropdown-button').dropdown({
 	belowOrigin: false, // Displays dropdown below the button
 	alignment: 'left', // Displays dropdown with edge aligned to the left of button
 	stopPropagation: false // Stops event propagation
-  }
+}
 );
-   
