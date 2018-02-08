@@ -180,7 +180,50 @@
 
       <div class="row">
         <a class="waves-effect waves-light btn" id="btnExportTable">
-          <i class="material-icons left">file_download</i>Download
+          <i class="material-icons left">file_download</i>Download Doc
+        </a>
+      </div>
+
+      <div class="divider"></div>
+      <div class="section">
+        <h5>Send As Email</h5>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s4">
+          <input id="txtSendTo" type="text" class="validate">
+          <label for="txtSendTo">Email Receipient(s)</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="txtSubject" type="text" class="validate">
+          <label for="txtSubject">Subject</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="txtMessage" class="materialize-textarea"></textarea>
+              <label for="txtMessage">Message</label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="txtEmailFooter" type="text" class="validate">
+          <label for="txtEmailFooter">Footer for Email</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <a class="waves-effect waves-light btn" id="btnSendEmail" download="message.eml">
+          <i class="material-icons left">email</i>Download Email
         </a>
       </div>
     </div>

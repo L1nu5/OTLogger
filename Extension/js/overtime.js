@@ -7,6 +7,7 @@ var storage = chrome.storage.sync;
 var btnMarkAdd = document.getElementById("btnMarkAdd");
 var btnMarkUpdate = document.getElementById("btnMarkUpdate");
 var btnExportTable = document.getElementById("btnExportTable");
+var btnDownloadEmail = document.getElementById("btnSendEmail");
 var now = new Date();
 
 function getCurrentDate() {
@@ -27,32 +28,48 @@ function setData(key, value) {
 	storage.set({ [key]: value });
 }
 
+function generateEmail(email) {
+	return (
+		"To: <" + email.sendTo + ">" + "\n" +
+		"Subject: " + email.subject + "\n" +
+		"X-Unsent: 1" + "\n" +
+		"Content-Type: text/html" + "\n\n" +
+		"<html>" + "\n" +
+		"<body>" + "\n" +
+		email.message + "\n\n" +
+		email.tableContent + "\n\n\n" +
+		email.footer + "\n" +
+		"</body>" + "\n" +
+		"</html>"
+	);
+}
+
 function generateList() {
 	storage.get(null, function (items) {
 		var allKeys = Object.keys(items);
-		
+
 		var items = '<ul id="dropdown1" class="dropdown-content">';
 		for (var i = 0; i < allKeys.length; ++i) {
 			var currentKey = allKeys[i];
-			
+
 			items += ('<li><a href="#!">' + currentKey + '</a></li>');
 		}
 		items += '</ul>';
-		
+
 		$("#dropDownDates").append(items);
 	});
 }
 
 function generateTable() {
 	var table = document.createElement('table');
-	
+
 	storage.get(null, function (items) {
 		for (currentKey of Object.keys(items)) {
 			var dateElement = items[currentKey];
-			
+
 			var tableRow = document.createElement('tr');
 			tableRow.appendChild(createTableData(currentKey));
-			
+
 			for (elementValue of Object.values(dateElement)) {
 				tableRow.appendChild(createTableData(elementValue));
 			}
@@ -81,21 +98,44 @@ function onClickMarkAddButton() {
 }
 
 function onClickMarkUpdateButton() {
+
+}
+
+function onClickDownloadEmailButton() {
+	var textFile = null;
+	var emailContent = {
+		sendTo: getValueForHTMLId("txtSendTo"),
+		subject: getValueForHTMLId("txtSubject"),
+		message: getValueForHTMLId("txtMessage"),
+		tableContent: document.getElementById("tableContent").innerHTML,
+		footer: getValueForHTMLId("txtEmailFooter")
+	}
+
+	var emailBody = generateEmail(emailContent);
 	
+	var data = new Blob([emailBody], { type: 'text/plain' });
+
+	if (textFile !== null) {
+		window.URL.revokeObjectURL(textFile);
+	}
+
+	textFile = window.URL.createObjectURL(data);
+
+	btnSendEmail.href = textFile;
 }
 
 function onClickExportTableButton() {
-	
+
 	if (!window.Blob) {
 		alert('Your legacy browser does not support this action.');
 		return;
 	}
-	
+
 	var html, link, blob, url, css;
-	
+
 	// EU A4 use: size: 841.95pt 595.35pt;
 	// US Letter use: size:11.0in 8.5in;
-	
+
 	css = (
 		'<style>' +
 		'@page tableContentDoc{size: 841.95pt 595.35pt;mso-page-orientation: landscape;}' +
@@ -103,7 +143,7 @@ function onClickExportTableButton() {
 		'table{border-collapse:collapse;}td{border:1px gray solid;width:5em;padding:2px;}' +
 		'</style>'
 	);
-	
+
 	html = document.getElementById("tableRoot").innerHTML;
 	blob = new Blob(['\ufeff', css + html], {
 		type: 'application/msword'
@@ -118,9 +158,9 @@ function onClickExportTableButton() {
 
 	document.body.appendChild(link);
 
-	if (navigator.msSaveOrOpenBlob) 
+	if (navigator.msSaveOrOpenBlob)
 		navigator.msSaveOrOpenBlob(blob, 'OTTable.doc'); // IE10-11
-	else 
+	else
 		link.click();  // other browsers
 
 	document.body.removeChild(link);
@@ -128,19 +168,23 @@ function onClickExportTableButton() {
 
 function onLoad() {
 	console.log("onLoad() executed");
-	
+
 	if (btnMarkAdd) {
 		btnMarkAdd.addEventListener("click", onClickMarkAddButton);
 	}
-	
+
 	if (btnMarkUpdate) {
 		//btnMarkUpdate.addEventListener("click", onClickMarkUpdateButton);
 	}
-	
+
 	if (btnExportTable) {
 		btnExportTable.addEventListener("click", onClickExportTableButton);
 	}
-	
+
+	if (btnDownloadEmail) {
+		btnDownloadEmail.addEventListener("click", onClickDownloadEmailButton);
+	}
+
 	generateTable();
 	generateList();
 }
@@ -153,22 +197,22 @@ chrome.browserAction.onClicked.addListener(function () {
 
 $("#mark").click(function () {
 	$('html,body').animate({ scrollTop: $("#divMark").offset().top },
-	'slow');
+		'slow');
 });
 
 $("#check").click(function () {
 	$('html,body').animate({ scrollTop: $("#divCheck").offset().top },
-	'slow');
+		'slow');
 });
 
 $("#pdf").click(function () {
 	$('html,body').animate({ scrollTop: $("#divConvert").offset().top },
-	'slow');
+		'slow');
 });
 
 $("#about").click(function () {
 	$('html,body').animate({ scrollTop: $("#divAbout").offset().top },
-	'slow');
+		'slow');
 });
 
 $('.datepicker').pickadate({
