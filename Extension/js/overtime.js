@@ -6,7 +6,7 @@
 var storage = chrome.storage.sync;
 var btnMarkAdd = document.getElementById("btnMarkAdd");
 var btnMarkUpdate = document.getElementById("btnMarkUpdate");
-var storeKeys = ["start", "end", "tasks"];
+var btnExportTable = document.getElementById("btnExportTable");
 var now = new Date();
 
 function getCurrentDate() {
@@ -19,7 +19,7 @@ function getCurrentTime() {
 	return currentTime;
 }
 
-function getValueForHTMLId(htmlId){
+function getValueForHTMLId(htmlId) {
 	return document.getElementById(htmlId).value;
 }
 
@@ -28,14 +28,14 @@ function setData(key, value) {
 }
 
 function generateList() {
-	storage.get(null, function (items){
+	storage.get(null, function (items) {
 		var allKeys = Object.keys(items);
 		
 		var items = '<ul id="dropdown1" class="dropdown-content">';
-		for(var i=0;i<allKeys.length;++i){
+		for (var i = 0; i < allKeys.length; ++i) {
 			var currentKey = allKeys[i];
 			
-			items += ('<li><a href="#!">'+ currentKey +'</a></li>');
+			items += ('<li><a href="#!">' + currentKey + '</a></li>');
 		}
 		items += '</ul>';
 		
@@ -44,44 +44,86 @@ function generateList() {
 }
 
 function generateTable() {
-    var table = document.createElement('table');
-
-    storage.get(null, function (items) {
-        for (currentKey of Object.keys(items)) {
-            var dateElement = items[currentKey];
-
-            var tableRow = document.createElement('tr');
-            tableRow.appendChild(createTableData(currentKey));
-
-            for(elementValue of Object.values(dateElement)){
-               tableRow.appendChild(createTableData(elementValue));
-            }
-            table.appendChild(tableRow); 
-        }
-        document.getElementById("tableContent").appendChild(table);
-    });
+	var table = document.createElement('table');
+	
+	storage.get(null, function (items) {
+		for (currentKey of Object.keys(items)) {
+			var dateElement = items[currentKey];
+			
+			var tableRow = document.createElement('tr');
+			tableRow.appendChild(createTableData(currentKey));
+			
+			for (elementValue of Object.values(dateElement)) {
+				tableRow.appendChild(createTableData(elementValue));
+			}
+			table.appendChild(tableRow);
+		}
+		document.getElementById("tableContent").appendChild(table);
+	});
 }
 
-function createTableData(value){
-    var tableData = document.createElement('td');
-    tableData.appendChild(document.createTextNode(value));
-    return tableData;
+function createTableData(value) {
+	var tableData = document.createElement('td');
+	tableData.appendChild(document.createTextNode(value));
+	return tableData;
 }
 
 // Event Listeners
 function onClickMarkAddButton() {
 	var date = getValueForHTMLId('timeAdd-date');
 	var timeStamp = {
-		"start" : getValueForHTMLId('timeAdd-start'),
-		"end"   : getValueForHTMLId('timeAdd-end'),
-		"tasks" : getValueForHTMLId('timeAdd-tasks')
+		"start": getValueForHTMLId('timeAdd-start'),
+		"end": getValueForHTMLId('timeAdd-end'),
+		"tasks": getValueForHTMLId('timeAdd-tasks')
 	};
 	console.log(timeStamp);
-	setData(date,timeStamp);
+	setData(date, timeStamp);
 }
 
 function onClickMarkUpdateButton() {
 	
+}
+
+function onClickExportTableButton() {
+	
+	if (!window.Blob) {
+		alert('Your legacy browser does not support this action.');
+		return;
+	}
+	
+	var html, link, blob, url, css;
+	
+	// EU A4 use: size: 841.95pt 595.35pt;
+	// US Letter use: size:11.0in 8.5in;
+	
+	css = (
+		'<style>' +
+		'@page tableContentDoc{size: 841.95pt 595.35pt;mso-page-orientation: landscape;}' +
+		'div#tableContent {page: tableContentDoc;}' +
+		'table{border-collapse:collapse;}td{border:1px gray solid;width:5em;padding:2px;}' +
+		'</style>'
+	);
+	
+	html = document.getElementById("tableRoot").innerHTML;
+	blob = new Blob(['\ufeff', css + html], {
+		type: 'application/msword'
+	});
+
+	url = URL.createObjectURL(blob);
+	link = document.createElement('A');
+	link.href = url;
+	// Set default file name. 
+	// Word will append file extension - do not add an extension here.
+	link.download = 'OTTable';
+
+	document.body.appendChild(link);
+
+	if (navigator.msSaveOrOpenBlob) 
+		navigator.msSaveOrOpenBlob(blob, 'OTTable.doc'); // IE10-11
+	else 
+		link.click();  // other browsers
+
+	document.body.removeChild(link);
 }
 
 function onLoad() {
@@ -93,6 +135,10 @@ function onLoad() {
 	
 	if (btnMarkUpdate) {
 		//btnMarkUpdate.addEventListener("click", onClickMarkUpdateButton);
+	}
+	
+	if (btnExportTable) {
+		btnExportTable.addEventListener("click", onClickExportTableButton);
 	}
 	
 	generateTable();
@@ -132,7 +178,7 @@ $('.datepicker').pickadate({
 	clear: 'Clear',
 	close: 'Ok',
 	closeOnSelect: false, // Close upon selecting a date,
-	format:'dd-mm-yyyy'
+	format: 'dd-mm-yyyy'
 });
 
 $('.timepicker').pickatime({
@@ -159,6 +205,6 @@ $('.dropdown-button').dropdown({
 }
 );
 
-$('#btnScrollTop').click(function(){
-	$("html, body").animate({scrollTop: 0}, 1000);
+$('#btnScrollTop').click(function () {
+	$("html, body").animate({ scrollTop: 0 }, 1000);
 });
