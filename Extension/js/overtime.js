@@ -47,29 +47,30 @@ function generateEmail(email) {
 function generateList() {
 	storage.get(null, function (items) {
 		var allKeys = Object.keys(items);
-
-		var items = '<ul id="dropdown1" class="dropdown-content">';
+		
+		var items = '<select id="dateSelector">';
+		items += '<option value="" disabled selected>Choose a Date</option>';
 		for (var i = 0; i < allKeys.length; ++i) {
 			var currentKey = allKeys[i];
-
-			items += ('<li><a href="#!">' + currentKey + '</a></li>');
+			
+			items += ('<option value="'+currentKey+'">' + currentKey + '</option>');
 		}
-		items += '</ul>';
-
-		$("#dropDownDates").append(items);
+		items += '</select>';
+		
+		$("#selectDate").append(items);
 	});
 }
 
 function generateTable() {
 	var table = document.createElement('table');
-
+	
 	storage.get(null, function (items) {
 		for (currentKey of Object.keys(items)) {
 			var dateElement = items[currentKey];
-
+			
 			var tableRow = document.createElement('tr');
 			tableRow.appendChild(createTableData(currentKey));
-
+			
 			for (elementValue of Object.values(dateElement)) {
 				tableRow.appendChild(createTableData(elementValue));
 			}
@@ -98,7 +99,21 @@ function onClickMarkAddButton() {
 }
 
 function onClickMarkUpdateButton() {
-
+	// Get the new values & store them for the same date
+	var e = document.getElementById("dateSelector");
+	
+	if(e.selectedIndex > 0)
+	{
+		var date = e.options[e.selectedIndex].value;
+		
+		var timeStamp = {
+			"start": getValueForHTMLId('timeUpdate-start'),
+			"end": getValueForHTMLId('timeUpdate-end'),
+			"tasks": getValueForHTMLId('timeUpdate-tasks')
+		};
+		console.log(timeStamp);
+		setData(date, timeStamp);
+	}
 }
 
 function onClickDownloadEmailButton() {
@@ -110,32 +125,32 @@ function onClickDownloadEmailButton() {
 		tableContent: document.getElementById("tableContent").innerHTML,
 		footer: getValueForHTMLId("txtEmailFooter")
 	}
-
+	
 	var emailBody = generateEmail(emailContent);
 	
 	var data = new Blob([emailBody], { type: 'text/plain' });
-
+	
 	if (textFile !== null) {
 		window.URL.revokeObjectURL(textFile);
 	}
-
+	
 	textFile = window.URL.createObjectURL(data);
-
+	
 	btnSendEmail.href = textFile;
 }
 
 function onClickExportTableButton() {
-
+	
 	if (!window.Blob) {
 		alert('Your legacy browser does not support this action.');
 		return;
 	}
-
+	
 	var html, link, blob, url, css;
-
+	
 	// EU A4 use: size: 841.95pt 595.35pt;
 	// US Letter use: size:11.0in 8.5in;
-
+	
 	css = (
 		'<style>' +
 		'@page tableContentDoc{size: 841.95pt 595.35pt;mso-page-orientation: landscape;}' +
@@ -143,48 +158,60 @@ function onClickExportTableButton() {
 		'table{border-collapse:collapse;}td{border:1px gray solid;width:5em;padding:2px;}' +
 		'</style>'
 	);
-
+	
 	html = document.getElementById("tableRoot").innerHTML;
 	blob = new Blob(['\ufeff', css + html], {
 		type: 'application/msword'
 	});
-
+	
 	url = URL.createObjectURL(blob);
 	link = document.createElement('A');
 	link.href = url;
 	// Set default file name. 
 	// Word will append file extension - do not add an extension here.
 	link.download = 'OTTable';
-
+	
 	document.body.appendChild(link);
-
+	
 	if (navigator.msSaveOrOpenBlob)
-		navigator.msSaveOrOpenBlob(blob, 'OTTable.doc'); // IE10-11
+	navigator.msSaveOrOpenBlob(blob, 'OTTable.doc'); // IE10-11
 	else
-		link.click();  // other browsers
-
+	link.click();  // other browsers
+	
 	document.body.removeChild(link);
+}
+
+function onSelectedDateChanged(date) {
+	storage.get([date],function(result){
+		var startTime = result[date].start;
+		var endTime = result[date].end;
+		var tasks = result[date].tasks;
+		
+		document.getElementById('timeUpdate-start').value = startTime;
+		document.getElementById('timeUpdate-end').value = endTime;
+		document.getElementById('timeUpdate-tasks').value = tasks;
+	});
 }
 
 function onLoad() {
 	console.log("onLoad() executed");
-
+	
 	if (btnMarkAdd) {
 		btnMarkAdd.addEventListener("click", onClickMarkAddButton);
 	}
-
+	
 	if (btnMarkUpdate) {
-		//btnMarkUpdate.addEventListener("click", onClickMarkUpdateButton);
+		btnMarkUpdate.addEventListener("click", onClickMarkUpdateButton);
 	}
-
+	
 	if (btnExportTable) {
 		btnExportTable.addEventListener("click", onClickExportTableButton);
 	}
-
+	
 	if (btnDownloadEmail) {
 		btnDownloadEmail.addEventListener("click", onClickDownloadEmailButton);
 	}
-
+	
 	generateTable();
 	generateList();
 }
@@ -197,22 +224,26 @@ chrome.browserAction.onClicked.addListener(function () {
 
 $("#mark").click(function () {
 	$('html,body').animate({ scrollTop: $("#divMark").offset().top },
-		'slow');
+	'slow');
 });
 
 $("#check").click(function () {
 	$('html,body').animate({ scrollTop: $("#divCheck").offset().top },
-		'slow');
+	'slow');
 });
 
 $("#pdf").click(function () {
 	$('html,body').animate({ scrollTop: $("#divConvert").offset().top },
-		'slow');
+	'slow');
 });
 
 $("#about").click(function () {
 	$('html,body').animate({ scrollTop: $("#divAbout").offset().top },
-		'slow');
+	'slow');
+});
+
+$(document).on('change',"#dateSelector", function() { 
+	onSelectedDateChanged($(this).val());
 });
 
 $('.datepicker').pickadate({
@@ -251,4 +282,8 @@ $('.dropdown-button').dropdown({
 
 $('#btnScrollTop').click(function () {
 	$("html, body").animate({ scrollTop: 0 }, 1000);
+});
+
+$(document).ready(function() {
+	$('select').material_select();
 });

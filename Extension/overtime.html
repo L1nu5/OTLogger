@@ -124,9 +124,8 @@
         <div class="update-form">
           <div class="input-field">
             <div class="row">
-              <div class="input-field col s2">
-                <a class='dropdown-button btn' data-activates='dropdown1'>Pick Date</a>
-                <div id="dropDownDates">
+              <div class="col s2">
+                <div id="selectDate">
 
                 </div>
               </div>
@@ -135,20 +134,19 @@
             <div class="row">
               <div class="input-field col s2">
                 <i class="material-icons prefix">access_time</i>
-                <input type="text" class="timepicker" placeholder="Pick Start Time" required>
+                <input type="text" class="timepicker" placeholder="Pick Start Time" id="timeUpdate-start" required>
               </div>
 
               <div class="input-field col s2">
                 <i class="material-icons prefix">timelapse</i>
-                <input type="text" class="timepicker" placeholder="Pick End Time" required>
+                <input type="text" class="timepicker" placeholder="Pick End Time" id="timeUpdate-end" required>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col s12">
                 <i class="material-icons prefix">mode_edit</i>
-                <textarea id="textarea1" class="materialize-textarea"></textarea>
-                <label for="textarea1">Tasks done in Overtime</label>
+                <textarea id="timeUpdate-tasks" class="materialize-textarea" placeholder="Tasks done in overtime"></textarea>
               </div>
             </div>
 
