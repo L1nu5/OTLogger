@@ -1,7 +1,5 @@
-// Cannot write wrapper around chrome.storage.sync.get()
-// because of its Asynchronous behaviour
-
-// Minor refactorings, modified storage calls to save time picker values
+// Author: Abhishek L. Deore
+// Next Stage: Add validations
 
 var storage = chrome.storage.sync;
 var btnMarkAdd = document.getElementById("btnMarkAdd");
@@ -210,9 +208,6 @@ function onClickExportTableButton() {
 
 	var html, link, blob, url, css;
 
-	// EU A4 use: size: 841.95pt 595.35pt;
-	// US Letter use: size:11.0in 8.5in;
-
 	css = (
 		'<style>' +
 		'@page tableContentDoc{size: 841.95pt 595.35pt;mso-page-orientation: landscape;}' +
@@ -229,7 +224,7 @@ function onClickExportTableButton() {
 	url = URL.createObjectURL(blob);
 	link = document.createElement('A');
 	link.href = url;
-	// Set default file name. 
+	
 	// Word will append file extension - do not add an extension here.
 	link.download = 'OTTable';
 
@@ -238,7 +233,7 @@ function onClickExportTableButton() {
 	if (navigator.msSaveOrOpenBlob)
 		navigator.msSaveOrOpenBlob(blob, 'OTTable.doc'); // IE10-11
 	else
-		link.click();  // other browsers
+		link.click();
 
 	document.body.removeChild(link);
 }
@@ -309,36 +304,36 @@ $(document).on('change', "#dateSelector", function () {
 });
 
 $('.datepicker').pickadate({
-	selectMonths: true, // Creates a dropdown to control month
-	selectYears: 15, // Creates a dropdown of 15 years to control year,
+	selectMonths: true,
+	selectYears: 15,
 	today: 'Today',
 	clear: 'Clear',
 	close: 'Ok',
-	closeOnSelect: false, // Close upon selecting a date,
+	closeOnSelect: false,
 	format: 'dd-mm-yyyy'
 });
 
 $('.timepicker').pickatime({
-	default: 'now', // Set default time: 'now', '1:30AM', '16:30'
-	fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
-	twelvehour: false, // Use AM/PM or 24-hour formatss
-	donetext: 'OK', // text for done-button
-	cleartext: 'Clear', // text for clear-button
-	canceltext: 'Cancel', // Text for cancel-button
-	autoclose: false, // automatic close timepicker
-	ampmclickable: true, // make AM PM clickable
-	aftershow: function () { } //Function for after opening timepicker
+	default: 'now',
+	fromnow: 0,
+	twelvehour: false,
+	donetext: 'OK',
+	cleartext: 'Clear',
+	canceltext: 'Cancel',
+	autoclose: false,
+	ampmclickable: true,
+	aftershow: function () { }
 });
 
 $('.dropdown-button').dropdown({
 	inDuration: 300,
 	outDuration: 225,
-	constrainWidth: false, // Does not change width of dropdown to that of the activator
-	hover: true, // Activate on hover
-	gutter: 0, // Spacing from edge
-	belowOrigin: false, // Displays dropdown below the button
-	alignment: 'left', // Displays dropdown with edge aligned to the left of button
-	stopPropagation: false // Stops event propagation
+	constrainWidth: false,
+	hover: true,
+	gutter: 0,
+	belowOrigin: false,
+	alignment: 'left',
+	stopPropagation: false
 }
 );
 
