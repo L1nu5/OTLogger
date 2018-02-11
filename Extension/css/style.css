@@ -48,3 +48,7 @@
 #social {
     margin-top: 30px;
 }
+
+#tabMenu{
+    overflow-x: hidden;
+}

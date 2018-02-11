@@ -1,22 +1,14 @@
 // Author: Abhishek L. Deore
-// Next Stage: Add validations
+// Next Stages: 1. Add validations
+//			    2. Improve/Polish UI (Add Notification toast, Design changes in UI)
+//			    3. Add Delete (Need Design checks!)
+//			    4. Sort dates properly!
 
 var storage = chrome.storage.sync;
 var btnMarkAdd = document.getElementById("btnMarkAdd");
 var btnMarkUpdate = document.getElementById("btnMarkUpdate");
 var btnExportTable = document.getElementById("btnExportTable");
 var btnDownloadEmail = document.getElementById("btnSendEmail");
-var now = new Date();
-
-function getCurrentDate() {
-	var currentDate = (now.getDate()) + "/" + (now.getMonth() + 1) + "/" + (now.getFullYear());
-	return currentDate;
-}
-
-function getCurrentTime() {
-	var currentTime = (now.getHours()) + ":" + (now.getMinutes());
-	return currentTime;
-}
 
 function getValueForHTMLId(htmlId) {
 	return document.getElementById(htmlId).value;
@@ -27,12 +19,24 @@ function setData(key, value) {
 }
 
 function generateEmail(email) {
+	var css = (
+		'<style>' +
+		'@page tableContentDoc{size: 841.95pt 595.35pt;mso-page-orientation: landscape;}' +
+		'div#attendanceTable {page: tableContentDoc;}' +
+		'table{border-collapse:collapse;}td{border:1px gray solid;width:5em;padding:2px;}' +
+		'*{font-family:"Arial, Helvetica, sans-serif"}' +
+		'</style>'
+	);
+
 	return (
 		"To: <" + email.sendTo + ">" + "\n" +
 		"Subject: " + email.subject + "\n" +
 		"X-Unsent: 1" + "\n" +
 		"Content-Type: text/html" + "\n\n" +
 		"<html>" + "\n" +
+		"<head>" + "\n" +
+		css + "\n" +
+		"</head>" + "\n" +
 		"<body>" + "\n" +
 		email.message + "\n\n" +
 		email.tableContent + "\n\n\n" +
@@ -90,20 +94,18 @@ function updateList() {
 					value = allKeys[i]
 					flag = true;
 					break;
-					console.log("found one, : " + value);
 				}
 			}
 
 			// If found such date, add it to the list
 			if (flag) {
-
 				var option = document.createElement("option");
 				option.value = value;
 				option.text = value;
 
 				dateSelector.appendChild(option);
-				console.log("added option : " + option.value + " " + option.text);
 
+				// This is needed to refresh the list
 				$('select').material_select();
 			}
 		});
@@ -114,6 +116,13 @@ function updateList() {
 function generateTable() {
 	var table = document.createElement('table');
 	table.setAttribute("id", "attendanceTable");
+
+	var tableHeader = document.createElement('tr');
+	tableHeader.appendChild(createTableData("Date"));
+	tableHeader.appendChild(createTableData("Start"));
+	tableHeader.appendChild(createTableData("End"));
+	tableHeader.appendChild(createTableData("Tasks"));
+	table.appendChild(tableHeader);
 
 	storage.get(null, function (items) {
 		for (currentKey of Object.keys(items)) {
@@ -138,7 +147,6 @@ function createTableData(value) {
 }
 
 function updateUI() {
-
 	document.getElementById("attendanceTable").remove();
 
 	generateTable();
@@ -149,13 +157,14 @@ function updateUI() {
 function onClickMarkAddButton() {
 	var date = getValueForHTMLId('timeAdd-date');
 	var timeStamp = {
-		"start": getValueForHTMLId('timeAdd-start'),
+		"begin": getValueForHTMLId('timeAdd-start'),
 		"end": getValueForHTMLId('timeAdd-end'),
 		"tasks": getValueForHTMLId('timeAdd-tasks')
 	};
 
 	setData(date, timeStamp);
 	updateUI();
+	Materialize.toast('Entry Added!', 1000);
 }
 
 function onClickMarkUpdateButton() {
@@ -166,13 +175,15 @@ function onClickMarkUpdateButton() {
 		var date = e.options[e.selectedIndex].value;
 
 		var timeStamp = {
-			"start": getValueForHTMLId('timeUpdate-start'),
+			"begin": getValueForHTMLId('timeUpdate-start'),
 			"end": getValueForHTMLId('timeUpdate-end'),
 			"tasks": getValueForHTMLId('timeUpdate-tasks')
 		};
 
 		setData(date, timeStamp);
 		updateUI();
+
+		Materialize.toast('Updated!', 1000);
 	}
 }
 
@@ -224,7 +235,7 @@ function onClickExportTableButton() {
 	url = URL.createObjectURL(blob);
 	link = document.createElement('A');
 	link.href = url;
-	
+
 	// Word will append file extension - do not add an extension here.
 	link.download = 'OTTable';
 
@@ -240,7 +251,7 @@ function onClickExportTableButton() {
 
 function onSelectedDateChanged(date) {
 	storage.get([date], function (result) {
-		var startTime = result[date].start;
+		var startTime = result[date].begin;
 		var endTime = result[date].end;
 		var tasks = result[date].tasks;
 
@@ -273,30 +284,11 @@ function onLoad() {
 	generateList();
 }
 
+
 document.addEventListener('DOMContentLoaded', onLoad, false);
 
 chrome.browserAction.onClicked.addListener(function () {
 	chrome.tabs.create({ url: chrome.runtime.getURL("overtime.html") });
-});
-
-$("#mark").click(function () {
-	$('html,body').animate({ scrollTop: $("#divMark").offset().top },
-		'slow');
-});
-
-$("#check").click(function () {
-	$('html,body').animate({ scrollTop: $("#divCheck").offset().top },
-		'slow');
-});
-
-$("#pdf").click(function () {
-	$('html,body').animate({ scrollTop: $("#divConvert").offset().top },
-		'slow');
-});
-
-$("#about").click(function () {
-	$('html,body').animate({ scrollTop: $("#divAbout").offset().top },
-		'slow');
 });
 
 $(document).on('change', "#dateSelector", function () {
@@ -343,4 +335,7 @@ $('#btnScrollTop').click(function () {
 
 $(document).ready(function () {
 	$('select').material_select();
+	$('ul.tabs').tabs();
 });
+
+$(".button-collapse").sideNav();

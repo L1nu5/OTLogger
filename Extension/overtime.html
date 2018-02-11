@@ -11,251 +11,208 @@
 
 <body>
   <nav>
-    <div class="nav-wrapper">
+    <div class="nav-wrapper blue">
       <a href="#" class="brand-logo center" id="header">Overtime Assistant</a>
     </div>
   </nav>
 
-  <div class="container flow-text">
-    <div class="section center">
-      <h5>Control Panel</h5>
-    </div>
-    <div class="divider"></div>
-    <div class="row">
-      <div id="mark" class="col s6 center">
-        <div class="card hoverable teal lighten-3">
-          <div class="card-image">
-            <i class="large material-icons">event</i>
-          </div>
-          <div class="card-content teal lighten-2 white-text">
-            Mark Attendance
-          </div>
-        </div>
-      </div>
+  <div class="flow-text">
+    <div id="tabsList">
+      <div class="col s12">
+        <ul class="tabs tabs-fixed-width blue lighten-4" id="tabMenu">
+          <li class="tab col s4">
+            <a class="blue-text" href="#divMark">ADD</a>
+          </li>
+          <li class="tab col s4">
+            <a class="blue-text" href="#divUpdate">UPDATE</a>
+          </li>
+          <li class="tab col s4">
+            <a class="blue-text" class="active" href="#divCheck">VIEW</a>
+          </li>
+          <li class="tab col s4">
+            <a class="blue-text" href="#divConvert">EMAIL</a>
+          </li>
+          <li class="tab col s4">
+            <a class="blue-text" href="#divDelete">DELETE</a>
+          </li>
+        </ul>
 
-      <div id="check" class="col s6 center">
-        <div class="card hoverable green lighten-3">
-          <div class="card-image">
-            <i class="large material-icons">check</i>
-          </div>
-          <div class="card-content green lighten-2 white-text">
-            Check Attendance
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div id="pdf" class="col s6 center">
-        <div class="card hoverable red lighten-3">
-          <div class="card-image">
-            <i class="large material-icons">picture_as_pdf</i>
-          </div>
-          <div class="card-content red lighten-2 white-text">
-            Convert to Table
-          </div>
-        </div>
-      </div>
-
-      <div id="about" class="col s6 center">
-        <div class="card hoverable blue lighten-3">
-          <div class="card-image">
-            <i class="large material-icons">info_outline</i>
-          </div>
-          <div class="card-content blue lighten-2 white-text">
-            About
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="divMark" class="row">
-      <div class="section">
-        <h5>Mark Attendance</h5>
-      </div>
-
-      <div class="divider"></div>
-      <div class="add">
-        <div class="section">
-          <h5>Add Entry</h5>
-        </div>
-
-        <div class="create-form">
-          <div class="row">
-            <div class="input-field">
-              <div class="col s2">
-                <i class="material-icons prefix">date_range</i>
-                <input type="text" class="datepicker" id="timeAdd-date" placeholder="Pick Date" required>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col s2 input-field">
-              <i class="material-icons prefix">access_time</i>
-              <input type="text" id="timeAdd-start" class="timepicker" placeholder="Pick Start Time" required>
-            </div>
-
-            <div class="col s2 input-field">
-              <i class="material-icons prefix">timelapse</i>
-              <input type="text" id="timeAdd-end" class="timepicker" placeholder="Pick End Time" required>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col s12 input-field ">
-              <i class="material-icons prefix">mode_edit</i>
-              <textarea id="timeAdd-tasks" class="materialize-textarea"></textarea>
-              <label for="timeAdd-tasks">Tasks done in Overtime</label>
-            </div>
-          </div>
-
-          <div class="row center">
-            <input class="waves-effect waves-light btn" id="btnMarkAdd" value="Save" type="button" name="MarkAddButton">
-          </div>
-        </div>
-      </div>
-
-      <div class="update">
-        <div class="section">
-          <h5>Update Details</h5>
-        </div>
-
-        <div class="update-form">
-          <div class="input-field">
+        <div id="divMark" class="container">
+          <div class="create-form">
             <div class="row">
-              <div class="col s2">
-                <div id="selectDate">
-
+              <div class="input-field">
+                <div class="col s2">
+                  <i class="material-icons prefix">date_range</i>
+                  <input type="text" class="datepicker" id="timeAdd-date" placeholder="Pick Date" required>
                 </div>
               </div>
             </div>
 
             <div class="row">
-              <div class="input-field col s2">
+              <div class="col s2 input-field">
                 <i class="material-icons prefix">access_time</i>
-                <input type="text" class="timepicker" placeholder="Pick Start Time" id="timeUpdate-start" required>
+                <input type="text" id="timeAdd-start" class="timepicker" placeholder="Pick Start Time" required>
               </div>
 
-              <div class="input-field col s2">
+              <div class="col s2 input-field">
                 <i class="material-icons prefix">timelapse</i>
-                <input type="text" class="timepicker" placeholder="Pick End Time" id="timeUpdate-end" required>
+                <input type="text" id="timeAdd-end" class="timepicker" placeholder="Pick End Time" required>
               </div>
             </div>
 
             <div class="row">
-              <div class="input-field col s12">
+              <div class="col s12 input-field ">
                 <i class="material-icons prefix">mode_edit</i>
-                <textarea id="timeUpdate-tasks" class="materialize-textarea" placeholder="Tasks done in overtime"></textarea>
+                <textarea id="timeAdd-tasks" class="materialize-textarea"></textarea>
+                <label for="timeAdd-tasks">Tasks done in Overtime</label>
               </div>
             </div>
 
             <div class="row center">
-              <input class="waves-effect waves-light btn" id="btnMarkUpdate" value="Update" type="button" name="MarkUpdateButton">
+              <input class="waves-effect waves-light btn" id="btnMarkAdd" value="Save" type="button" name="MarkAddButton">
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div id="divCheck" class="row">
-      <div class="section">
-        <h5>Check Attendance</h5>
-      </div>
+        <div id="divUpdate" class="container">
+          <div class="update-form">
+            <div class="input-field">
+              <div class="row">
+                <div class="col s2">
+                  <div id="selectDate">
 
-      <div class="divider"></div>
-      <div id="tableRoot">
-        <div id="tableContent">
-        
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s2">
+                  <i class="material-icons prefix">access_time</i>
+                  <input type="text" class="timepicker" placeholder="Pick Start Time" id="timeUpdate-start" required>
+                </div>
+
+                <div class="input-field col s2">
+                  <i class="material-icons prefix">timelapse</i>
+                  <input type="text" class="timepicker" placeholder="Pick End Time" id="timeUpdate-end" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s6">
+                  <i class="material-icons prefix">mode_edit</i>
+                  <textarea id="timeUpdate-tasks" class="materialize-textarea" placeholder="Tasks done in overtime"></textarea>
+                </div>
+              </div>
+
+              <div class="row center">
+                <input class="waves-effect waves-light btn" id="btnMarkUpdate" value="Update" type="button" name="MarkUpdateButton">
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div id="divConvert" class="row">
-      <div class="section">
-        <h5>Convert to Table</h5>
-      </div>
+        <div id="divCheck" class="container">
+          <div id="tableRoot">
+            <div id="tableContent">
 
-      <div class="row">
-        <a class="waves-effect waves-light btn" id="btnExportTable">
-          <i class="material-icons left">file_download</i>Download Doc
-        </a>
-      </div>
-
-      <div class="divider"></div>
-      <div class="section">
-        <h5>Send As Email</h5>
-      </div>
-
-      <div class="row">
-        <div class="input-field col s4">
-          <input id="txtSendTo" type="text" class="validate">
-          <label for="txtSendTo">Email Receipient(s)</label>
+            </div>
+            <div class="row center">
+              <a class="waves-effect waves-light btn" id="btnExportTable">
+                <i class="material-icons left">file_download</i>Download Table
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="input-field col s6">
-          <input id="txtSubject" type="text" class="validate">
-          <label for="txtSubject">Subject</label>
-        </div>
-      </div>
-
-      <div class="row">
-        <form class="col s12">
+        <div id="divConvert" class="container">
           <div class="row">
-            <div class="input-field col s12">
-              <textarea id="txtMessage" class="materialize-textarea"></textarea>
-              <label for="txtMessage">Message</label>
+            <div class="input-field col s4">
+              <input id="txtSendTo" type="text" class="validate">
+              <label for="txtSendTo">Email Receipient(s)</label>
             </div>
           </div>
-        </form>
-      </div>
 
-      <div class="row">
-        <div class="input-field col s6">
-          <input id="txtEmailFooter" type="text" class="validate">
-          <label for="txtEmailFooter">Footer for Email</label>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="txtSubject" type="text" class="validate">
+              <label for="txtSubject">Subject</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="txtMessage" class="materialize-textarea"></textarea>
+                  <label for="txtMessage">Message</label>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="txtEmailFooter" type="text" class="validate">
+              <label for="txtEmailFooter">Footer for Email</label>
+            </div>
+          </div>
+
+          <div class="row center">
+            <a class="waves-effect waves-light btn" id="btnSendEmail" download="message.eml">
+              <i class="material-icons left">email</i>Download Email
+            </a>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <a class="waves-effect waves-light btn" id="btnSendEmail" download="message.eml">
-          <i class="material-icons left">email</i>Download Email
-        </a>
+        <div id="divDelete" class="container">
+          <p>Coming soon...</p>
+        </div>
       </div>
     </div>
 
-    <div id="divAbout" class="row">
-      <div class="section">
-        <h5>About</h5>
-      </div>
-
-      <div class="divider"></div>
-      <p class="">
-        <div>Developed by: Abhishek L. Deore</div>
-        The extension is free for use, any suggestions are welcome!
-        <div id="social" class="col s12">
-          <div>My social links</div>
+    <div id="navBar">
+      <ul id="slide-out" class="side-nav">
+        <li>
+          <div class="user-view">
+            <div class="background">
+              <img src="img/skyblue.png">
+            </div>
+            <a href="#!name">
+              <span class="black-text name">Developed By: Abhishek L. Deore</span>
+            </a>
+            <a href="#!email">
+              <span class="white-text email">dr.abhi7deore@gmail.com</span>
+            </a>
+          </div>
+        </li>
+        <li>
           <span>
             <a href="https://www.facebook.com/abdr1337" class="fa fa-facebook"></a>
           </span>
-          <span>
-            <a href="#" class="fa fa-google"></a>
-          </span>
+          Facebook
+        </li>
+        <li>
           <span>
             <a href="https://www.linkedin.com/in/abhishekdeore" class="fa fa-linkedin"></a>
           </span>
+          LinkedIn
+        </li>
+        <li>
           <span>
             <a href="https://www.github.com/L1nu5" class="fa fa-github"></a>
           </span>
-        </div>
-      </p>
+          GitHub
+        </li>
+        <li>
+          <span><p>Suggestions are Welcome!</p></span>
+        </li>
+      </ul>
+
     </div>
 
     <div class="fixed-action-btn">
-      <a class="btn-floating btn-large red" id="btnScrollTop">
-        <i class="large material-icons">arrow_upward</i>
+      <a class="btn-floating btn-large waves-effect waves-light blue button-collapse" data-activates="slide-out">
+        <i class="material-icons">developer_mode</i>
       </a>
     </div>
   </div>
