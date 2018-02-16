@@ -122,15 +122,25 @@ function updateList() {
 function generateTable() {
 	var table = document.createElement('table');
 	table.setAttribute("id", "attendanceTable");
-
+	table.setAttribute("class", "striped highlight centered");
+	
+	var tHead = document.createElement("thead");
 	var tableHeader = document.createElement('tr');
-	tableHeader.appendChild(createTableData("Date"));
-	tableHeader.appendChild(createTableData("Start"));
-	tableHeader.appendChild(createTableData("End"));
-	tableHeader.appendChild(createTableData("Tasks"));
-	table.appendChild(tableHeader);
+	tableHeader.appendChild(createTableHeading("Date"));
+	tableHeader.appendChild(createTableHeading("Start"));
+	tableHeader.appendChild(createTableHeading("End"));
+	tableHeader.appendChild(createTableHeading("Tasks"));
+	tHead.appendChild(tableHeader);
+	table.appendChild(tHead);
 
+	var tBody = document.createElement("tBody");
 	storage.get(null, function (items) {
+		if (Object.keys(items).length == 0) {
+			toggleTableWithEmptyContainer(true);
+			return;
+		}
+
+		toggleTableWithEmptyContainer(false);
 		for (currentKey of Object.keys(items)) {
 			var dateElement = items[currentKey];
 
@@ -140,16 +150,31 @@ function generateTable() {
 			for (elementValue of Object.values(dateElement)) {
 				tableRow.appendChild(createTableData(elementValue));
 			}
-			table.appendChild(tableRow);
+			tBody.appendChild(tableRow);
 		}
+		table.appendChild(tBody);
 		document.getElementById("tableContent").appendChild(table);
 	});
+}
+
+function toggleTableWithEmptyContainer(visible) {
+	if(visible) {
+		$("#placeHolder").show();
+	}else {
+		$("#placeHolder").hide();
+	}
 }
 
 function createTableData(value) {
 	var tableData = document.createElement('td');
 	tableData.appendChild(document.createTextNode(value));
 	return tableData;
+}
+
+function createTableHeading(value) {
+	var tableHeading = document.createElement('th');
+	tableHeading.appendChild(document.createTextNode(value));
+	return tableHeading;
 }
 
 function updateUI() {
