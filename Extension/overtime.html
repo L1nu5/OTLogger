@@ -27,13 +27,10 @@
             <a class="blue-text" href="#divUpdate">UPDATE</a>
           </li>
           <li class="tab col s4">
-            <a class="blue-text" class="active" href="#divCheck">VIEW</a>
+            <a class="blue-text" href="#divCheck">VIEW</a>
           </li>
           <li class="tab col s4">
             <a class="blue-text" href="#divConvert">EMAIL</a>
-          </li>
-          <li class="tab col s4">
-            <a class="blue-text" href="#divDelete">DELETE</a>
           </li>
         </ul>
 
@@ -76,37 +73,44 @@
 
         <div id="divUpdate" class="container">
           <div class="update-form">
-            <div class="input-field">
-              <div class="row">
-                <div class="col s2">
-                  <div id="selectDate">
+            <div class="row">
+              <p>
+                <input type="checkbox" class="filled-in" id="filled-in-box" name="deleteMode" />
+                <label for="filled-in-box">Delete Mode</label>
+              </p>
+            </div>
+            <div class="row">
+              <div class="col s2">
+                <div id="selectDate">
 
+                </div>
+              </div>
+            </div>
+            <div id="divToggle">
+              <div class="input-field">
+                <div class="row">
+                  <div class="input-field col s2">
+                    <i class="material-icons prefix">access_time</i>
+                    <input type="text" class="timepicker" placeholder="Pick Start Time" id="timeUpdate-start" required>
+                  </div>
+
+                  <div class="input-field col s2">
+                    <i class="material-icons prefix">timelapse</i>
+                    <input type="text" class="timepicker" placeholder="Pick End Time" id="timeUpdate-end" required>
                   </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="input-field col s2">
-                  <i class="material-icons prefix">access_time</i>
-                  <input type="text" class="timepicker" placeholder="Pick Start Time" id="timeUpdate-start" required>
+                <div class="row">
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <textarea id="timeUpdate-tasks" class="materialize-textarea" placeholder="Tasks done in overtime"></textarea>
+                  </div>
                 </div>
 
-                <div class="input-field col s2">
-                  <i class="material-icons prefix">timelapse</i>
-                  <input type="text" class="timepicker" placeholder="Pick End Time" id="timeUpdate-end" required>
-                </div>
               </div>
-
-              <div class="row">
-                <div class="input-field col s6">
-                  <i class="material-icons prefix">mode_edit</i>
-                  <textarea id="timeUpdate-tasks" class="materialize-textarea" placeholder="Tasks done in overtime"></textarea>
-                </div>
-              </div>
-
-              <div class="row center">
-                <input class="waves-effect waves-light btn" id="btnMarkUpdate" value="Update" type="button" name="MarkUpdateButton">
-              </div>
+            </div>
+            <div class="row center">
+              <input class="waves-effect waves-light btn" id="btnMarkUpdate" value="Update" type="button" name="MarkUpdateButton">
             </div>
           </div>
         </div>
@@ -163,10 +167,6 @@
             </a>
           </div>
         </div>
-
-        <div id="divDelete" class="container">
-          <p>Coming soon...</p>
-        </div>
       </div>
     </div>
 
@@ -204,7 +204,9 @@
           GitHub
         </li>
         <li>
-          <span><p>Suggestions are Welcome!</p></span>
+          <span>
+            <p>Suggestions are Welcome!</p>
+          </span>
         </li>
       </ul>
 

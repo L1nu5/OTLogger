@@ -9,6 +9,8 @@ var btnMarkAdd = document.getElementById("btnMarkAdd");
 var btnMarkUpdate = document.getElementById("btnMarkUpdate");
 var btnExportTable = document.getElementById("btnExportTable");
 var btnDownloadEmail = document.getElementById("btnSendEmail");
+var checkbox = document.querySelector("input[name=deleteMode]");
+var deleteMode = false;
 
 function getValueForHTMLId(htmlId) {
 	return document.getElementById(htmlId).value;
@@ -16,6 +18,10 @@ function getValueForHTMLId(htmlId) {
 
 function setData(key, value) {
 	storage.set({ [key]: value });
+}
+
+function removeData(key) {
+	storage.remove([key]);
 }
 
 function generateEmail(email) {
@@ -75,7 +81,7 @@ function generateList() {
 }
 
 function updateList() {
-
+	
 	if (dateSelector) {
 		storage.get(null, function (items) {
 			var allKeys = Object.keys(items);
@@ -170,20 +176,27 @@ function onClickMarkAddButton() {
 function onClickMarkUpdateButton() {
 	// Get the new values & store them for the same date
 	var e = document.getElementById("dateSelector");
+	var date = e.options[e.selectedIndex].value;
 
 	if (e.selectedIndex > 0) {
-		var date = e.options[e.selectedIndex].value;
 
-		var timeStamp = {
-			"begin": getValueForHTMLId('timeUpdate-start'),
-			"end": getValueForHTMLId('timeUpdate-end'),
-			"tasks": getValueForHTMLId('timeUpdate-tasks')
-		};
+		if (deleteMode) {
+			removeData(date);
+			window.location.reload();
+			Materialize.toast('Removed!', 1000);
 
-		setData(date, timeStamp);
-		updateUI();
+		} else {
+			var timeStamp = {
+				"begin": getValueForHTMLId('timeUpdate-start'),
+				"end": getValueForHTMLId('timeUpdate-end'),
+				"tasks": getValueForHTMLId('timeUpdate-tasks')
+			};
 
-		Materialize.toast('Updated!', 1000);
+			setData(date, timeStamp);
+			updateUI();
+
+			Materialize.toast('Updated!', 1000);
+		}
 	}
 }
 
@@ -280,10 +293,23 @@ function onLoad() {
 		btnDownloadEmail.addEventListener("click", onClickDownloadEmailButton);
 	}
 
+	if (checkbox) {
+		checkbox.addEventListener('change', function () {
+			if (this.checked) {
+				$("#divToggle").hide();
+				btnMarkUpdate.value = "Delete";
+				deleteMode = true;
+			} else {
+				$("#divToggle").show();
+				btnMarkUpdate.value = "Update";
+				deleteMode = false;
+			}
+		});
+	}
+
 	generateTable();
 	generateList();
 }
-
 
 document.addEventListener('DOMContentLoaded', onLoad, false);
 
