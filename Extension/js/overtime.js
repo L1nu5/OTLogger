@@ -12,6 +12,9 @@ var btnDownloadEmail = document.getElementById("btnSendEmail");
 var checkbox = document.querySelector("input[name=deleteMode]");
 var deleteMode = false;
 
+var inputsAdd = ["timeAdd-start", "timeAdd-end", "timeAdd-date"];
+var inputsUpdate = ["timeUpdate-start", "timeUpdate-end"];
+
 function getValueForHTMLId(htmlId) {
 	return document.getElementById(htmlId).value;
 }
@@ -81,7 +84,7 @@ function generateList() {
 }
 
 function updateList() {
-	
+
 	if (dateSelector) {
 		storage.get(null, function (items) {
 			var allKeys = Object.keys(items);
@@ -119,11 +122,22 @@ function updateList() {
 
 }
 
+function validateUI(inputs) {
+
+	for (var i = 0; i < inputs.length; ++i) {
+		if(getValueForHTMLId(inputs[i]) == "") {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 function generateTable() {
 	var table = document.createElement('table');
 	table.setAttribute("id", "attendanceTable");
 	table.setAttribute("class", "striped highlight centered");
-	
+
 	var tHead = document.createElement("thead");
 	var tableHeader = document.createElement('tr');
 	tableHeader.appendChild(createTableHeading("Date"));
@@ -158,10 +172,12 @@ function generateTable() {
 }
 
 function toggleTableWithEmptyContainer(visible) {
-	if(visible) {
+	if (visible) {
 		$("#placeHolder").show();
-	}else {
+		$("#btnExportTable").attr("disabled", "disabled");
+	} else {
 		$("#placeHolder").hide();
+		$("#btnExportTable").attr("disabled", false);
 	}
 }
 
@@ -186,6 +202,11 @@ function updateUI() {
 
 // Event Listeners
 function onClickMarkAddButton() {
+
+	if(!validateUI(inputsAdd)) {
+		console.log("Something is wrong!");
+	}
+
 	var date = getValueForHTMLId('timeAdd-date');
 	var timeStamp = {
 		"begin": getValueForHTMLId('timeAdd-start'),
@@ -390,3 +411,9 @@ $(document).ready(function () {
 });
 
 $(".button-collapse").sideNav();
+
+$('input').blur(function () {
+	if (!$(this).val()) {
+		console.log("adhsakd!!?! asdkasldueqa :D");
+	}
+});
